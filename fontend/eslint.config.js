@@ -33,6 +33,11 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+      'import/no-unresolved': 'off',
+      'import/extensions': ['.js', '.jsx'],
+      'import/no-default-export': 'off',
+      'prettier/prettier': 'error',
+      'react/prop-types': 'off',
     },
   },
 ]
