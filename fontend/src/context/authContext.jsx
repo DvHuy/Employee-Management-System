@@ -5,7 +5,7 @@ const userContext = createContext();
 
 const authContext = ({children}) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -20,13 +20,19 @@ const authContext = ({children}) => {
                 }
             }
           );
+        
+          console.log(response);
+          
           if (response.data.success) {
             setUser(response.data.user);
           }
         }
         else{
             setUser(null);
+            setLoading(false);
         }
+        console.log(loading);
+        
       } catch (err) {
         if (err.response && !err.response.data.error) {
           setUser(null);
