@@ -15,9 +15,11 @@ const AdminSidebar = () => {
         <h3 className="text-2xl text-center font-pacific">Employee MS</h3>
       </div>
       <div className="px-4">
+        {/* isActive là 1 thuộc tính của NavLink kiểm tra xem đường dẫn của route có khớp với đường dẫn hiện tại không */}
         <NavLink
           to="/admin-dashboard"
           className= {({isActive})=> `${isActive ? "bg-teal-500" : ""} flex items-center space-x-4 py-2.5 px-4 rounded`}
+          end
         >
           <FaTachometerAlt />
           <span>Dasboard</span>
@@ -30,8 +32,8 @@ const AdminSidebar = () => {
           <span>Employee</span>
         </NavLink>
         <NavLink
-          to="/admin-dashboard"
-          className="flex items-center space-x-4 py-2.5 px-4 rounded"
+          to="/admin-dashboard/departments"
+          className= {({isActive})=> `${isActive ? "bg-teal-500" : ""} flex items-center space-x-4 py-2.5 px-4 rounded`}
         >
           <FaBuilding />
           <span>Departments</span>
