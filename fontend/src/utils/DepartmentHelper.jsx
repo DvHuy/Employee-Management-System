@@ -5,10 +5,12 @@ export const columns = [
   {
     name: "S No",
     selector: (row) => row.sno,
+    sortable: true,
   },
   {
     name: "Department Name",
     selector: (row) => row.dep_name,
+    sortable: true,
   },
   {
     name: "Action",
