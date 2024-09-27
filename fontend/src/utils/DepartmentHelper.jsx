@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export const columns = [
@@ -15,7 +16,30 @@ export const columns = [
   },
 ];
 
-export const DepartmentButtons = ({ Id }) => {
+export const DepartmentButtons = ({ Id, onDepartmentDelete }) => {
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("Are you sure you want to delete ?");
+    if (confirm) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/api/department/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        if (response.data.success) {
+          onDepartmentDelete(id);
+        }
+      } catch (error) {
+        if (error.response && !error.response.data.success) {
+          alert(error.response.data.error);
+        }
+      }
+    }
+  };
   const navigate = useNavigate();
   return (
     <div className="flex space-x-3">
@@ -27,7 +51,12 @@ export const DepartmentButtons = ({ Id }) => {
       >
         Edit
       </button>
-      <button className="px-3 py-1 bg-red-600 text-white">Delete</button>
+      <button
+        className="px-3 py-1 bg-red-600 text-white"
+        onClick={()=>handleDelete(Id)}
+      >
+        Delete
+      </button>
     </div>
   );
 };

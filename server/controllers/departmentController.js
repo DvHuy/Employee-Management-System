@@ -41,19 +41,35 @@ const getDepartment = async (req, res) => {
 };
 
 const updateDepartment = async (req, res) => {
-    try {
-      const { id } = req.params;
-        const {dep_name, description} = req.body;
-      const updateDep = await Department.findByIdAndUpdate({ _id: id },{
+  try {
+    const { id } = req.params;
+    const { dep_name, description } = req.body;
+    const updateDep = await Department.findByIdAndUpdate(
+      { _id: id },
+      {
         dep_name,
-        description
-      });
-      return res.status(200).json({ success: true, updateDep });
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ success: false, error: "edit department server error" });
-    }
-  };
+        description,
+      }
+    );
+    return res.status(200).json({ success: true, updateDep });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "edit department server error" });
+  }
+};
 
-export { addDepartment, getDepartments, getDepartment, updateDepartment };
+const deleteDepartment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteDep = await Department.findByIdAndDelete({ _id: id });
+    return res
+      .status(200)
+      .json({ success: true, deleteDep});
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "delete department server error" });
+  }
+};
+export { addDepartment, getDepartments, getDepartment, updateDepartment,  deleteDepartment};
