@@ -31,13 +31,16 @@ const Add = () => {
     Object.keys(formData).forEach((key) => {
       formDataObj.append(key, formData[key]);
     });
-
+    console.log(formDataObj);
+    
     try {
       const response = await axios.post("http://localhost:5000/api/employee/add", formDataObj,{
         headers:{
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         }
       });
+      console.log(response);
+      
       if(response.data.success){
         navigate("/admin-dashboard/employees");
       }

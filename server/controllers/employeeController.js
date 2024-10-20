@@ -3,9 +3,10 @@ import Employee from "../models/Employee.js";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import path from "path";
+import { log } from "console";
 
 const storage = multer.diskStorage({
-  detination: (req, file, cb) => {
+  destination: (req, file, cb) => {
     cb(null, "public/uploads");
   },
   filename: (req, file, cb) => {
@@ -59,14 +60,28 @@ const addEmployee = async (req, res) => {
       department,
       salary,
     });
+    
 
     await newEmployee.save();
     return res.status(200).json({ success: true, message: "employee created" });
   } catch (error) {
     return res
-     .status(500)
-     .json({ success: false, error: "add employee server error" });
+      .status(500)
+      .json({ success: false, error: "add employee server error" });
   }
 };
 
-export { addEmployee, upload };
+const getEmployees = async (req, res) => {
+  try {
+    //populate dùng để lấy luôn các trường tham chiếu
+    const employees = await Employee.find()
+      .populate("userId", { password: 0 })
+      .populate("department");
+    return res.status(200).json({ success: true, employees });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "get employees server error" });
+  }
+};
+export { addEmployee, upload, getEmployees };
