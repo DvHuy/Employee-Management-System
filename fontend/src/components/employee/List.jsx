@@ -19,7 +19,7 @@ const List = () => {
             },
           }
         );
-        console.log(response);
+        
 
         if (response.data.success) {
           let sno = 1;
