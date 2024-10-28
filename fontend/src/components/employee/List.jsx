@@ -6,6 +6,7 @@ import axios from "axios";
 const List = () => {
   const [employees, setEmployees] = useState([]);
   const [empLoading, setEmpLoading] = useState(false);
+  const [filteredEmployee, setFilteredEmployee] = useState([]);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -19,7 +20,6 @@ const List = () => {
             },
           }
         );
-        
 
         if (response.data.success) {
           let sno = 1;
@@ -30,11 +30,16 @@ const List = () => {
             name: emp.userId.name,
             dob: new Date(emp.dob).toLocaleDateString(),
             profileImage: (
-              <img width={40} className="rounded-full" src={`http://localhost:5000/${emp.userId.profileImage}`} />
+              <img
+                width={40}
+                className="rounded-full"
+                src={`http://localhost:5000/${emp.userId.profileImage}`}
+              />
             ),
             action: <EmployeeButtons Id={emp._id} />,
           }));
           setEmployees(data);
+          setFilteredEmployee(data);
         }
       } catch (error) {
         if (error.response && !error.response.data.success) {
@@ -46,6 +51,13 @@ const List = () => {
     };
     fetchEmployees();
   }, []);
+
+  const handleFilter = (e) => {
+    const records = employees.filter((emp) => (
+      emp.name.toLowerCase().includes(e.target.value.toLowerCase())
+    ));
+    setFilteredEmployee(records);
+  };
   return (
     <div className="p-6">
       <div className="text-center">
@@ -56,6 +68,7 @@ const List = () => {
           type="text"
           placeholder="Search By Department"
           className="px-4 py-0.5 rounded border"
+          onChange={handleFilter}
         />
         <Link
           to="/admin-dashboard/add-employee"
@@ -65,7 +78,7 @@ const List = () => {
         </Link>
       </div>
       <div className="mt-5">
-        <DataTable columns={columns} data={employees} pagination />
+        <DataTable columns={columns} data={filteredEmployee} pagination />
       </div>
     </div>
   );
