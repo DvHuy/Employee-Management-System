@@ -39,7 +39,7 @@ const Add = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         }
       });
-      console.log(response);
+      
       
       if(response.data.success){
         navigate("/admin-dashboard/employees");
