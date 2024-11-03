@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -9,8 +10,6 @@ const View = () => {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        console.log("hello");
-
         const response = await axios.get(
           `http://localhost:5000/api/employee/${id}`,
           {

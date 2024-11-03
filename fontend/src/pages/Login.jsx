@@ -25,7 +25,7 @@ const Login = () => {
           navigate("/admin-dashboard");
         }
         else{
-          navigate("/employy-dashboard");
+          navigate("/employee-dashboard");
         }
       }
     } catch (err) {

@@ -87,10 +87,16 @@ const getEmployees = async (req, res) => {
 const getEmployee = async (req, res) => {
   const { id } = req.params;
   try {
+    let employee;
     //populate dùng để lấy luôn các trường tham chiếu
-    const employee = await Employee.findById({ _id: id })
+    employee = await Employee.findById({ _id: id })
       .populate("userId", { password: 0 })
       .populate("department");
+    if (!employee) {
+      employee = await Employee.findOne({ userId: id })
+        .populate("userId", { password: 0 })
+        .populate("department");
+    }
     return res.status(200).json({ success: true, employee });
   } catch (error) {
     return res
@@ -123,28 +129,34 @@ const updateEmployee = async (req, res) => {
       { _id: id },
       { maritalStatus, designation, salary, department }
     );
-    if(!updateEmployee || !updateUser){
+    if (!updateEmployee || !updateUser) {
       return res
-       .status(404)
-       .json({ success: false, error: "Update employee/user failed" });
+        .status(404)
+        .json({ success: false, error: "Update employee/user failed" });
     }
-    return res.status(200).json({ success: true, message: "employee update"})
+    return res.status(200).json({ success: true, message: "employee update" });
   } catch (error) {
     return res
       .status(500)
       .json({ success: false, error: "get employee server error" });
   }
 };
-const fetchEmployeesByDepId = async (req, res)=>{
+const fetchEmployeesByDepId = async (req, res) => {
   const { id } = req.params;
   try {
-    const employees = await Employee.find({ department: id })
+    const employees = await Employee.find({ department: id });
     return res.status(200).json({ success: true, employees });
   } catch (error) {
     return res
       .status(500)
       .json({ success: false, error: "get employee by dep id server error" });
   }
-
-}
-export { addEmployee, upload, getEmployees, getEmployee, updateEmployee, fetchEmployeesByDepId };
+};
+export {
+  addEmployee,
+  upload,
+  getEmployees,
+  getEmployee,
+  updateEmployee,
+  fetchEmployeesByDepId,
+};
