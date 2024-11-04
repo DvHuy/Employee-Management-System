@@ -13,10 +13,10 @@ const List = () => {
             className='px-4 py-0.5 border'
             />
             <Link
-            to="/"
+            to="/employee-dashboard/add-leave"
             className="px-4 py-1 bg-teal-600 rounded text-white"
             >
-            Add Leave
+            Add New Leave
             </Link>
         </div>
     </div>
